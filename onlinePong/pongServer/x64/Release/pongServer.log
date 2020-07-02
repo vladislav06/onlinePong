@@ -1,0 +1,23 @@
+﻿  vector.cpp
+  server.cpp
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(92,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(133,45): warning C4244: =: преобразование "float" в "uint8_t", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(134,45): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(135,45): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(136,49): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(137,49): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(150,24): warning C4477: "printf": в строке форматирования "%s" требуется аргумент типа "char *", но вариативный аргумент "1" имеет тип "void *"
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(179,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(180,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(182,73): warning C4244: аргумент: преобразование "clock_t" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(183,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(184,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(194,31): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(195,31): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(196,36): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(197,36): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+  All 25 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  pongServer.vcxproj -> H:\projects\online_pong\onlinePong\x64\Release\pongServer.exe

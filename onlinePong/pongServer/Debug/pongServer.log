@@ -1,0 +1,9 @@
+﻿  server.cpp
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(92,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(141,24): warning C4477: "printf": в строке форматирования "%s" требуется аргумент типа "char *", но вариативный аргумент "1" имеет тип "void *"
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(170,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(171,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(173,73): warning C4244: аргумент: преобразование "clock_t" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(174,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\pongServer\server.cpp(175,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+  pongServer.vcxproj -> H:\projects\online_pong\onlinePong\Debug\pongServer.exe

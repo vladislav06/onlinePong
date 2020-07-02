@@ -1,0 +1,12 @@
+port to conect to server is 2244
+port to conect co clients is 2245
+
+
+
+
+server has host with port 2244
+and client co connect to clients
+
+
+client has host with port 2245 to recive data from server 
+and client so send data to server

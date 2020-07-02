@@ -1,0 +1,39 @@
+﻿  onlinePong.cpp
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(273,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(274,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(277,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(278,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(306,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(307,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(308,32): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(309,32): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: int __thiscall Socket::Receive(class Address &,void *,int)" (?Receive@Socket@@QAEHAAVAddress@@PAXH@Z).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::Send(class Address const &,void const *,int)" (?Send@Socket@@QAE_NABVAddress@@PBXH@Z).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::NonBlock(void)" (?NonBlock@Socket@@QAE_NXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::Open(unsigned short)" (?Open@Socket@@QAE_NG@Z).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: __thiscall Socket::Socket(void)" (??0Socket@@QAE@XZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetKeyboardState.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderClear.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_DestroyRenderer.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Init.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned short __thiscall Address::GetPort(void)const " (?GetPort@Address@@QBEGXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetD(void)const " (?GetD@Address@@QBEEXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetC(void)const " (?GetC@Address@@QBEEXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetB(void)const " (?GetB@Address@@QBEEXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetA(void)const " (?GetA@Address@@QBEEXZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: void __thiscall Address::SetPortU(unsigned short)" (?SetPortU@Address@@QAEXG@Z).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: void __thiscall Address::SetAddress(unsigned long)" (?SetAddress@Address@@QAEXK@Z).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: __thiscall Address::Address(void)" (??0Address@@QAE@XZ).
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_DestroyWindow.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetError.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Quit.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Delay.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_PollEvent.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetTicks.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_CreateRenderer.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderPresent.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderFillRect.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_CreateWindow.
+onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_SetRenderDrawColor.
+MSVCRT.lib(exe_main.obj) : error LNK2001: неразрешенный внешний символ _main.
+H:\projects\online_pong\onlinePong\Release\onlinePong.exe : fatal error LNK1120: неразрешенных внешних элементов: 29
