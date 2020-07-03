@@ -1,17 +1,19 @@
 ﻿  onlinePong.cpp
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(282,33): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(289,27): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(290,34): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(305,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(306,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(309,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(310,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(338,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(339,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(340,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(341,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(310,31): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(311,33): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(312,35): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(313,35): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(352,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(353,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(356,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(357,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(389,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(390,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(391,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(392,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(99,9): warning C4101: id: неиспользованная локальная переменная
   Создание кода
-  1 of 404 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 405 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено

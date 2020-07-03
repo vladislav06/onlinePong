@@ -1,39 +1,31 @@
 ﻿  onlinePong.cpp
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(273,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(274,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(277,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(278,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(306,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(307,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(308,32): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(309,32): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: int __thiscall Socket::Receive(class Address &,void *,int)" (?Receive@Socket@@QAEHAAVAddress@@PAXH@Z).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::Send(class Address const &,void const *,int)" (?Send@Socket@@QAE_NABVAddress@@PBXH@Z).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::NonBlock(void)" (?NonBlock@Socket@@QAE_NXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: bool __thiscall Socket::Open(unsigned short)" (?Open@Socket@@QAE_NG@Z).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: __thiscall Socket::Socket(void)" (??0Socket@@QAE@XZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetKeyboardState.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderClear.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_DestroyRenderer.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Init.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned short __thiscall Address::GetPort(void)const " (?GetPort@Address@@QBEGXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetD(void)const " (?GetD@Address@@QBEEXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetC(void)const " (?GetC@Address@@QBEEXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetB(void)const " (?GetB@Address@@QBEEXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: unsigned char __thiscall Address::GetA(void)const " (?GetA@Address@@QBEEXZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: void __thiscall Address::SetPortU(unsigned short)" (?SetPortU@Address@@QAEXG@Z).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: void __thiscall Address::SetAddress(unsigned long)" (?SetAddress@Address@@QAEXK@Z).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ "public: __thiscall Address::Address(void)" (??0Address@@QAE@XZ).
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_DestroyWindow.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetError.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Quit.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_Delay.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_PollEvent.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_GetTicks.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_CreateRenderer.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderPresent.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_RenderFillRect.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_CreateWindow.
-onlinePong.obj : error LNK2001: неразрешенный внешний символ _SDL_SetRenderDrawColor.
-MSVCRT.lib(exe_main.obj) : error LNK2001: неразрешенный внешний символ _main.
-H:\projects\online_pong\onlinePong\Release\onlinePong.exe : fatal error LNK1120: неразрешенных внешних элементов: 29
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(336,31): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(337,31): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(338,35): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(339,35): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(378,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(379,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(382,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(383,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(415,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(416,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(417,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(418,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(111,9): warning C4101: id: неиспользованная локальная переменная
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(43,14): error C2672: "std::invoke": не найдена соответствующая перегруженная функция
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(49): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int std::thread::_Invoke<_Tuple,0>(void *) noexcept"
+          with
+          [
+              _Tuple=_Tuple
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(55): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int (__stdcall *std::thread::_Get_invoke<_Tuple,0>(std::integer_sequence<size_t,0>) noexcept)(void *)"
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(280): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::thread::thread<void(__cdecl &)(Socket *),,0>(_Fn)"
+          with
+          [
+              _Fn=void (__cdecl &)(Socket *)
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(39,5): error C2893: Сбой при специализации функции-шаблона "unknown-type std::invoke(_Callable &&,_Types &&...) noexcept(<expr>)".
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\type_traits(1612): message : см. объявление "std::invoke"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(39,5): message : Со следующими аргументами шаблона:
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(39,5): message : "_Callable=void (__cdecl *)(Socket *)"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\thread(39,5): message : "_Types={}"

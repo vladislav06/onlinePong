@@ -5,7 +5,8 @@
 #include <string>
 #include "../vector.h"
 #include "../pongServer/UDP.h"
-
+#include <math.h>
+#include <time.h>
 #define TICK_INTERVAL    30 //update rate
 static Uint32 next_time;
 
@@ -34,7 +35,9 @@ struct user {
     int id;
     Address address;
 };
-
+struct counters {
+    int i;
+};
 
 int SDLCheck(SDL_Window* window, SDL_Renderer* render) {
     //check all sdl components
@@ -70,9 +73,117 @@ Uint32 time_left(void)
         return next_time - now;
 }
 
+bool Overlap(SDL_Rect rect ,ball ball);
+
 int main(int argc, char** argv)
 {
+    struct counters counters;
+    Socket socket;
 
+    struct data data;
+    //struct data reciveData;
+
+    struct user user;
+
+    float sendData[7];
+    float reciveData[7]
+        ;
+    for (int i = 0; i < 7; i++)
+    {
+        sendData[i] = 0;
+    }
+
+    bool server = false;
+
+
+    int id[1];
+
+    //get port and ip
+    int ip1;
+    int ip2;
+    int ip3;
+    int ip4;
+    int port;
+    std::cout << "enter server ip (-1 to be host) : ";
+    cin >> ip1;
+    if (ip1 == -1)
+    {
+        goto port;
+    }
+    cin >> ip2;
+    cin >> ip3;
+    cin >> ip4;
+
+port:
+
+    std::cout << endl << "ender port: ";
+    cin >> port;
+
+    //open socket
+
+    socket.Open(port);
+
+
+    if (ip1 == -1) {       //if we are host
+
+        char buf[256];
+        Address sender;
+
+        server = true;
+
+        while (1)       //wait for a client
+        {
+            
+
+            int bytes_read = socket.Receive(sender, buf, sizeof(buf));
+
+            if (bytes_read >= 0)
+            {
+                std::cout << "got conection from : " << std::endl;
+                std::cout << "ip: " <<
+                    int(sender.GetA()) << "." <<
+                    int(sender.GetB()) << "." <<
+                    int(sender.GetC()) << "." <<
+                    int(sender.GetD()) <<
+                    " port:" <<
+                    sender.GetPort() <<
+                    std::endl;
+                // set user
+                user.address = sender;
+                user.id = 1;
+                user.occuped = true;
+
+                break;
+            }
+
+        }
+
+    }
+    else {
+
+        Address send;
+        send.SetAddress(ip1, ip2, ip3, ip4);
+        send.SetPortU(port);
+        user.address = send;
+        const char data[] = "hi";
+        std::cout << "ip: " <<
+            int(user.address.GetA()) << "." <<
+            int(user.address.GetB()) << "." <<
+            int(user.address.GetC()) << "." <<
+            int(user.address.GetD()) <<
+            " ip2 :" <<
+            user.address.GetAddress() <<
+            " port:" <<
+            user.address.GetPort() <<
+            std::endl;
+        if (!socket.Send(user.address, data, sizeof(data)))
+        {
+            std::cout << "errr";
+            // return false;
+        }
+    }
+
+    /*==================UDP setup done=================*/
 
 
     if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_EVENTS)) {
@@ -108,8 +219,8 @@ int main(int argc, char** argv)
     ball.x = 250;
     ball.y = 250;
 
-    ball.vect.x = -2;
-    ball.vect.y = 2;
+    ball.vect.x = -4;
+    ball.vect.y = 4;
 
     vector2::vector ballcord;
 
@@ -117,112 +228,20 @@ int main(int argc, char** argv)
    
     /*==================sdl setup done=================*/
     
-    Socket socket;
-
-    struct data data;
-    //struct data reciveData;
-
-    struct user user;
-
-    float senddata[7];
-    float reciveData[7];
-    for (int i = 0; i < 7; i++)
-    {
-        senddata[i] = 0;
-    }
-  
-    bool server = false;
-
- 
-    int id[1];
    
-
-
-    
-
-  
-    //get port and ip
-    int ip1;
-    int ip2;
-    int ip3;
-    int ip4;
-    int port;
-    std::cout << "enter server ip (-1 to be host) : ";
-    cin >> ip1;
-    cin >> ip2;
-    cin >> ip3;
-    cin >> ip4;
-    std::cout << endl << "ender port: ";
-    cin >> port;
-
-    //open socket
-
-    socket.Open(port);
-
-    
-    if (ip1 == -1) {       //if we are host
-        char buf[256];
-        Address sender;
-        server = true;
-        while (1)       //wait for a client
-        {
-            int bytes_read = socket.Receive(sender, buf, sizeof(buf));
-
-            if (bytes_read >= 0)
-            {
-                std::cout << "got conection from : " << std::endl;
-                std::cout << "ip: " <<
-                    int(sender.GetA()) << "." <<
-                    int(sender.GetB()) << "." <<
-                    int(sender.GetC()) << "." <<
-                    int(sender.GetD()) <<
-                    " port:" <<
-                    sender.GetPort() <<
-                    std::endl;
-                // set user
-                user.address = sender;
-                user.id = 1;
-                user.occuped = true;
-
-                break;
-            }
-
-        }
-
-    } else {
-
-        Address send;
-        send.SetAddress(ip1,ip2,ip3,ip4);
-        send.SetPortU(port);
-        user.address = send;
-        const char data[] = "hi";
-        std::cout << "ip: " <<
-            int(user.address.GetA()) << "." <<
-            int(user.address.GetB()) << "." <<
-            int(user.address.GetC()) << "." <<
-            int(user.address.GetD()) <<
-            " ip2 :" <<
-            user.address.GetAddress() <<
-            " port:" <<
-            user.address.GetPort() <<
-            std::endl;
-        if (!socket.Send(user.address, data, sizeof(data)))
-        {
-            std::cout << "errr";
-            // return false;
-        }
-    }
     
     
    
     
 
    // eventStatus = 1;
+
     bool quit = false;
+
     next_time = SDL_GetTicks() + TICK_INTERVAL;
 
     Address sender;
-
+    //set cords 
     racket1.x = 100;
     racket1.y = 50;
     racket2.x = 900;
@@ -234,11 +253,19 @@ int main(int argc, char** argv)
     }
     
     bool useData = false;
-    while (1) {
-        socket.NonBlock();
+    counters.i = 0;
+
+    int tick;
+    while (!quit) {
+        tick = clock(); //get tick before loop
+        counters.i++;
+        if (server) {
+            socket.NonBlock();  //set non blocking mode
+        }
+        
         
         int bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
-        
+        //check for data
         if (bytes_read <= 0)
         {
             useData = false;
@@ -247,7 +274,7 @@ int main(int argc, char** argv)
             useData = true;
         }
       
-      
+        //check for events
         if (SDL_PollEvent(&e)) {
             //If user closes the window
             if (e.type == SDL_QUIT) {
@@ -278,26 +305,45 @@ int main(int argc, char** argv)
             racket1.y += 10;    //move down
             //cout << "down";
         }
-        
+        //===========+update ball+===========
+        //transform recived data
+        data.h1 = reciveData[2];
         racket2.y = reciveData[1];
-        if (!server) {
+        data.ball.x = reciveData[3];
+        data.ball.y = reciveData[4];
+        data.ball.vect.x = reciveData[5];
+        data.ball.vect.y = reciveData[6];
 
-            //if (useData) {
-              //  racket1.y = reciveData[2];
-            //}
 
-            ball.x = 1000 - reciveData[3];
-            ball.y = reciveData[4];
-            ball.vect.x = reciveData[5];
-            ball.vect.y = reciveData[6];
-        }
+        //update racket2
+      //   = data.h2;
+
         
+        if (!server) { //update ball cords if client
+            /*
+            if (std::abs(racket1.y - data.h1) > 20) {  //if difrence is tobig
+                racket1.y = data.h1;
+            }
+            */
+            
+            if (counters.i == 1) { //evry 30 cycles update ball
+                ball.x = 1000 - data.ball.x;  //invert ball position
+                ball.y = data.ball.y;
+                ball.vect.x = data.ball.vect.x * -1;
+                ball.vect.y = data.ball.vect.y;
 
+                counters.i = 0;
+            }
 
-        /* <---------clamp ball to y(vertical) of raket---------><clamp to x(horizont) of racket>  */
-        if (ball.y >= racket1.y && ball.y <= racket1.y + RACK_H && ball.x >= 100 && ball.x <= 105) { ball.vect.x *= -1; }
+        }
+        else {
+            //if (std::abs(racket1.y - data.h1) > 20) {  //if difrence is to big
+           //     racket1.y = data.h1;
+           // }
+        }
 
-        if (ball.y <= racket2.y + RACK_H && ball.y >= racket2.y && ball.x >= 900 && ball.x <= 905) { ball.vect.x *= -1; }
+        if (Overlap(racket1,ball)) { ball.vect.x *= -1; } //if bal hits racket >invert x vector
+        if (Overlap(racket2, ball)) { ball.vect.x *= -1; }
 
 
         if (ball.x >= Y_WALL || ball.x <= 0) { ball.vect.x *= -1; }     //if ball gets to the wall invert vector
@@ -310,7 +356,7 @@ int main(int argc, char** argv)
         ball.x = ballcord.x;    //deconvert ballcord to ball.x,y
         ball.y = ballcord.y;
 
-
+        //update ball render model
         ballS.x = ball.x;
         ballS.y = ball.y;
 
@@ -329,48 +375,58 @@ int main(int argc, char** argv)
 
         SDL_RenderPresent(render);
 
+
+        //set our racket cords
         data.h1 = racket1.y;
+
+        /*
         data.h2 = racket2.y;
         data.id = id[0];
        //cout << int(data.id)<<endl;
-
-
-        senddata[0] = data.id;
-        senddata[1] = data.h1;
-        senddata[2] = data.h2;
-        senddata[3] = ball.x;
-        senddata[4] = ball.y;
-        senddata[5] = ball.vect.x;
-        senddata[6] = ball.vect.y;
+       */
+        //prepare for transmission
+        sendData[0] = data.id;
+        sendData[1] = data.h1;
+        sendData[2] = data.h2;
+        sendData[3] = ball.x;
+        sendData[4] = ball.y;
+        sendData[5] = ball.vect.x;
+        sendData[6] = ball.vect.y;
 
         if (true) {
             
-            if (!socket.Send(user.address, senddata, sizeof(senddata)))
+            if (!socket.Send(user.address, sendData, sizeof(sendData)))
             {
                 std::cout << "errror";
             }
           
         }
-
+       
         
        
 
-
-
-
-       
-
-
-
-
-
         //event = NULL;
-
-
-        SDL_Delay(time_left());
-        next_time += TICK_INTERVAL; //calc next game update 
-       
+        tick = clock() - tick; //get ticks after loop
+        cout << tick << endl;
+        if (tick >= 20)
+        {
+            socket.Close();
+            socket.Open(port);
+        }
+        SDL_Delay(10);
 
     }
+  //  SDLDestroy(window, render);
+
     return 0;
+}
+bool Overlap (SDL_Rect rect , ball ball){
+    if (rect.x > (ball.x + 10) || ball.x > (rect.x + rect.w)) {
+        return false;
+    }
+    if (rect.y > (ball.y + 10) || ball.y > (rect.y + rect.h)) {
+        return false;
+    }
+
+    return true;
 }
