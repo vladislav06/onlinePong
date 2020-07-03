@@ -1,12 +1,10 @@
-port to conect to server is 2244
-port to conect co clients is 2245
 
-
-
-
-server has host with port 2244
-and client co connect to clients
-
-
-client has host with port 2245 to recive data from server 
-and client so send data to server
+ sendData[0] = data.id;
+        sendData[1] = data.h1;
+        sendData[2] = data.h2;
+        sendData[3] = ball.x;
+        sendData[4] = ball.y;
+        sendData[5] = ball.vect.x;
+        sendData[6] = ball.vect.y;
+        sendData[7] = data.h1v;
+        sendData[8] = data.h2v;
