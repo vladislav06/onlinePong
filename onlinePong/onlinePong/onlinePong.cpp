@@ -2,11 +2,13 @@
 #include <sdl.h>
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "../vector.h"
 #include "../pongServer/UDP.h"
 #include <math.h>
 #include <time.h>
+#include <sstream>
 #define TICK_INTERVAL    30 //update rate
 static Uint32 next_time;
 
@@ -39,6 +41,12 @@ struct user {
 struct counters {
     int i;
 };
+struct settings {
+    int BallSpeed;
+    int RacketSpeed;
+    bool MLGMode;
+};
+
 
 int SDLCheck(SDL_Window* window, SDL_Renderer* render) {
     //check all sdl components
@@ -57,11 +65,6 @@ int SDLCheck(SDL_Window* window, SDL_Renderer* render) {
     return 0;
 }
 
-void SDLDestroy(SDL_Window* window, SDL_Renderer* render) {
-    SDL_DestroyRenderer(render);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
 
 Uint32 time_left(void)
 {
@@ -76,8 +79,11 @@ Uint32 time_left(void)
 
 bool Overlap(SDL_Rect rect ,ball ball);
 
+struct settings FileRead(string filename);
+struct settings settings;
 int main(int argc, char** argv)
 {
+   
     struct counters counters;
     Socket socket;
 
@@ -91,10 +97,12 @@ int main(int argc, char** argv)
     for (int i = 0; i < 9; i++)
     {
         sendData[i] = 0;
+        reciveData[i] = 0;
     }
 
     bool server = false;
 
+    settings = FileRead("settings.dat");
 
     int id[1];
 
@@ -195,9 +203,30 @@ port:
 
     if (SDLCheck(window, render)) {
         std::cout << "SDL error\n";
-        SDLDestroy(window, render);
+       // SDL_DestroyTexture(DVD);
+        SDL_DestroyRenderer(render);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+    }
+    SDL_Texture* DVD = nullptr;
+    if (settings.MLGMode)
+    {//loading image
+
+        SDL_Surface* bmp = SDL_LoadBMP("DVD.bmp");
+        if (bmp == nullptr) {
+            std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+            return 1;
+        }
+
+       DVD = SDL_CreateTextureFromSurface(render, bmp);
+        SDL_FreeSurface(bmp);
+        if (DVD == nullptr) {
+            std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+            return 1;
+        }
     }
     //create rockets
+
     SDL_Rect racket1;
     SDL_Rect racket2;
 
@@ -209,8 +238,14 @@ port:
 
     //init ball
     SDL_Rect ballS;
+
     ballS.w = 10;
     ballS.h = 10;
+    if (settings.MLGMode)
+    {
+        ballS.w = 50;
+        ballS.h = 50;
+    }
     ballS.x = 250;
     ballS.y = 500;
 
@@ -219,8 +254,8 @@ port:
     ball.x = 250;
     ball.y = 250;
 
-    ball.vect.x = -4;
-    ball.vect.y = 4;
+    ball.vect.x = -settings.BallSpeed;
+    ball.vect.y = settings.BallSpeed;
 
     vector2::vector ballcord;
 
@@ -257,11 +292,12 @@ port:
 
     int tick;
 
-    //if (server) {
+   
 
-        socket.NonBlock();
-    //}
+        socket.NonBlock(); //disable waiting
+    
     while (!quit) {
+        // render last frame for lower lags
         SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
         SDL_RenderClear(render);
 
@@ -271,22 +307,32 @@ port:
         SDL_RenderFillRect(render, &racket1);
         SDL_RenderFillRect(render, &racket2);
 
-        SDL_RenderFillRect(render, &ballS);
+        if (settings.MLGMode) {
+            //SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+            SDL_RenderCopy(render, DVD, NULL,&ballS);
+        }
+        else {
+            SDL_RenderFillRect(render, &ballS);
+        }
+
+        
 
         SDL_RenderPresent(render);
 
         tick = clock(); //get tick before loop
-        counters.i++;
+      //  counters.i++;
 
-
+        // if we are server, we listen all data what is incoming to get latest update
         if (server) {
             int bytes_read = 1;
 
             while (bytes_read > 0) {
-
+                counters.i++;
                 bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
 
             }
+            cout << counters.i << "   |   "; //print reciving loops count
+            counters.i = 0;
             //check for data
             if (bytes_read <= 0)
             {
@@ -299,6 +345,7 @@ port:
 
         }
         else {
+            //if we are client simply read data 
            int bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
         }
         
@@ -326,16 +373,16 @@ port:
         if (key[SDL_SCANCODE_UP])
         {
             // cout << "up";
-            data.h1v = -5; //move up
+            data.h1v = -settings.RacketSpeed; //move up
         }
         if (key[SDL_SCANCODE_DOWN])
         {
-            data.h1v = 5;    //move down
+            data.h1v = settings.RacketSpeed;    //move down
             //cout << "down";
         }
         //===========+ update +===========
         //transform recived data
-      //  data.h1 = reciveData[2];
+      
 
         racket2.y = reciveData[1];
 
@@ -345,36 +392,35 @@ port:
         data.ball.vect.x = reciveData[5];
         data.ball.vect.y = reciveData[6];
 
-       // data.h1v = reciveData[8];
+    
         data.h2v = reciveData[7];
-
-        //update racket2
-      //   = data.h2;
+ 
 
         
         if (!server) { //update if we client
-            if (counters.i == 1) { //evry 30 cycles update ball
 
-                ball.x = 1000 - data.ball.x;  //invert ball position
-                ball.y = data.ball.y;
-                ball.vect.x = data.ball.vect.x * -1; //and vector
-                ball.vect.y = data.ball.vect.y;
 
-                counters.i = 0;
-            }
-        }
-        else {
+            ball.x = 1000 - data.ball.x;  //invert ball position
+            ball.y = data.ball.y;
+            ball.vect.x = data.ball.vect.x * -1; //and vector
+            ball.vect.y = data.ball.vect.y;
+
+            //counters.i = 0;
+
         }
 
-        if (Overlap(racket1,ball)) { ball.vect.x *= -1; } //if bal hits racket >invert x vector
+        if (Overlap(racket1,ball)) { ball.vect.x *= -1; } //if bal hits racket then invert x vector
         if (Overlap(racket2, ball)) { ball.vect.x *= -1; }
 
 
-        if (ball.x > Y_WALL || ball.x < 0) { ball.vect.x *= -1; }     //if ball gets to the wall invert vector
-        if (ball.y > X_WALL || ball.y < 0) { ball.vect.y *= -1; }
+        if ((ball.x+ballS.w) > Y_WALL || ball.x < 0) { ball.vect.x *= -1; }     //if ball hits to the wall invert vector
+        if ((ball.y+ballS.h) > X_WALL || ball.y < 0) { ball.vect.y *= -1; }
 
-        if (racket1.y > X_WALL || racket1.y < 0) { data.h1v = 0; racket1.y = 0; }
-        if (racket2.y > X_WALL || racket2.y < 0) { data.h2v = 0; racket2.y = 0; }
+        if (racket1.y > X_WALL) { data.h1v = 0; racket1.y--; }
+        if (racket2.y > X_WALL) { data.h2v = 0; racket2.y--; }
+
+        if (racket1.y < 0) { data.h1v = 0; racket1.y = 0; }
+        if (racket2.y < 0) { data.h2v = 0; racket2.y = 0; }
         //update ball position
 
         ballcord.x = ball.x;    //convert ball.x,y to vector for future calculations
@@ -391,18 +437,12 @@ port:
         racket2.y += data.h2v;
         data.h1v = 0;
         data.h2v = 0;
-        //rendering
-       
 
 
         //set our racket cords
         data.h1 = racket1.y;
 
-        /*
-        data.h2 = racket2.y;
-        data.id = id[0];
-       //cout << int(data.id)<<endl;
-       */
+      
         //prepare for transmission
         sendData[0] = data.id;
         sendData[1] = data.h1;
@@ -429,25 +469,101 @@ port:
 
         //event = NULL;
         tick = clock() - tick; //get ticks after loop
-        cout << tick << endl;
+        cout << tick << endl; //print ticks
         if (tick >= 20)
         {
             socket.Close();
             socket.Open(port);
+            socket.NonBlock(); //disable waiting
+
         }
         SDL_Delay(10);
 
     }
-    SDLDestroy(window, render);
+
+    SDL_DestroyTexture(DVD);
+    
+   
+    SDL_DestroyRenderer(render);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+   // SDLDestroy(window, render);
 
     return 0;
 }
- 
+
+struct settings FileRead(string filename) {
+
+    struct settings settings;
+
+    string line;
+    string set;
+    string dat;
+
+    ifstream file("settings.dat");
+    
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            istringstream iss(line);
+
+
+
+            if (!(iss >> set >> dat)) {
+
+                break;
+            }
+            else {
+
+
+                if (set == "BallSpeed") {
+
+                    settings.BallSpeed = stoi(dat); //set value
+                    cout << "BallSpeed : " << settings.BallSpeed << endl;
+
+                }
+                else if (set == "RacketSpeed") {
+
+                    settings.RacketSpeed = stoi(dat);
+                    cout << "RacketSpeed : " << settings.RacketSpeed << endl;
+                }
+                else if (set == "MLGMode") {
+                    if (stoi(dat) == 1)
+                    {
+                        settings.MLGMode = true;
+                        cout << "MLGMode : " << settings.MLGMode << endl;
+                    }
+                    else {
+                        settings.MLGMode = false;
+                        cout << "MLGMode : " << settings.MLGMode << endl;
+                    }
+                }
+            }
+        }
+        
+        file.close();
+    }
+    else {
+        cout << "file read err" << endl;
+    }
+
+    return settings;
+
+}
 bool Overlap (SDL_Rect rect , ball ball){
-    if (rect.x > (ball.x + 10) || ball.x > (rect.x + rect.w)) {
+    int balh;
+    if (settings.MLGMode) {
+        balh = 50;
+    }
+    else {
+        balh = 10;
+    }
+    
+    if (rect.x > (ball.x + balh) || ball.x > (rect.x + rect.w)) {
         return false;
     }
-    if (rect.y > (ball.y + 10) || ball.y > (rect.y + rect.h)) {
+    if (rect.y > (ball.y + balh) || ball.y > (rect.y + rect.h)) {
         return false;
     }
 
