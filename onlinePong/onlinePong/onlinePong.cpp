@@ -20,17 +20,13 @@ static Uint32 next_time;
 using namespace std;
 using namespace VectMath;
 
-struct ball {
-    VectMath::vector2::vector vect;
-    int x, y = 0;
-};
+
 
 struct data {
-    int h1, h2 = 0; // use 8 for h of racket
-    int h1v, h2v = 0;
-    struct ball ball;  //struct ball use 16 bytes
+    rect rect1;
+    rect rect2;
+    rect ball;  //struct ball use 16 bytes
     uint8_t id = 0;     //one byte for id
-                    // we have 3 bytes left for future
 };
 
 struct user {
@@ -39,7 +35,8 @@ struct user {
     Address address;
 };
 struct counters {
-    int i;
+    int i,j = 0;
+
 };
 struct settings {
     int BallSpeed;
@@ -77,10 +74,14 @@ Uint32 time_left(void)
         return next_time - now;
 }
 
-bool Overlap(SDL_Rect rect ,ball ball);
+bool Overlap(struct rect rect , struct rect ball);
+
+void writeTo(struct rect rect, SDL_Rect * Srect);
 
 struct settings FileRead(string filename);
+
 struct settings settings;
+
 int main(int argc, char** argv)
 {
    
@@ -88,16 +89,19 @@ int main(int argc, char** argv)
     Socket socket;
 
     struct data data;
+
     //struct data reciveData;
 
     struct user user;
 
     float sendData[9];
     float reciveData[9];
+    //float reciveData2[9];
     for (int i = 0; i < 9; i++)
     {
         sendData[i] = 0;
         reciveData[i] = 0;
+        //reciveData2[i] = 0;
     }
 
     bool server = false;
@@ -230,34 +234,41 @@ port:
     SDL_Rect racket1;
     SDL_Rect racket2;
 
-    racket1.w = 5;
-    racket1.h = RACK_H;
+    data.rect1.w = 5;
+    data.rect1.h = RACK_H;
 
-    racket2.w = 5;
-    racket2.h = RACK_H;
+    data.rect2.w = 5;
+    data.rect2.h = RACK_H;
 
     //init ball
     SDL_Rect ballS;
 
-    ballS.w = 10;
-    ballS.h = 10;
+    data.ball.w = 10;
+    data.ball.h = 10;
     if (settings.MLGMode)
     {
-        ballS.w = 50;
-        ballS.h = 50;
+        data.ball.w = 50;
+        data.ball.h = 50;
     }
-    ballS.x = 250;
-    ballS.y = 500;
+    data.ball.x = 250;
+    data.ball.y = 250;
 
-    struct ball ball;
+    //set cords 
+    data.rect1.x = 100;
+    data.rect1.y = 250;
 
-    ball.x = 250;
-    ball.y = 250;
+    data.rect2.x = 900;
+    data.rect2.y = 250;
 
-    ball.vect.x = -settings.BallSpeed;
-    ball.vect.y = settings.BallSpeed;
+    //write to main struct
+    writeTo(data.rect1, &racket1);
+    writeTo(data.rect2, &racket2);
+    writeTo(data.ball, &ballS);
 
-    vector2::vector ballcord;
+    data.ball.vect.x = -settings.BallSpeed;
+    data.ball.vect.y = settings.BallSpeed;
+
+    //vector2::vector ballcord;
 
     SDL_Event e;
    
@@ -276,12 +287,7 @@ port:
     next_time = SDL_GetTicks() + TICK_INTERVAL;
 
     Address sender;
-    //set cords 
-    racket1.x = 100;
-    racket1.y = 250;
-    racket2.x = 900;
-    racket2.y = 250;
-
+ 
  //   racket1.
     if (!server) {
         int bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
@@ -320,18 +326,18 @@ port:
         SDL_RenderPresent(render);
 
         tick = clock(); //get tick before loop
-      //  counters.i++;
 
-        // if we are server, we listen all data what is incoming to get latest update
-        if (server) {
+        //listen all data what is incoming to get latest update
+      //  if (server) {
             int bytes_read = 1;
 
             while (bytes_read > 0) {
                 counters.i++;
+
                 bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
 
             }
-            cout << counters.i << "   |   "; //print reciving loops count
+            cout << counters.i << "   |   " << reciveData[2] << "   |   "; //print reciving loops count
             counters.i = 0;
             //check for data
             if (bytes_read <= 0)
@@ -343,11 +349,10 @@ port:
 
             }
 
-        }
-        else {
-            //if we are client simply read data 
-           int bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
-        }
+      //  }
+     //   else {
+         //  int bytes_read = socket.Receive(sender, reciveData, sizeof(reciveData));
+        //}
         
         //check for events
         if (SDL_PollEvent(&e)) {
@@ -372,104 +377,123 @@ port:
         const Uint8* key = SDL_GetKeyboardState(NULL);
         if (key[SDL_SCANCODE_UP])
         {
-            // cout << "up";
-            data.h1v = -settings.RacketSpeed; //move up
+            
+            data.rect1.vect.y = -settings.RacketSpeed; //move up
+           // cout <<"/"<< data.rect1.vect.y << "/";
         }
         if (key[SDL_SCANCODE_DOWN])
         {
-            data.h1v = settings.RacketSpeed;    //move down
-            //cout << "down";
+            data.rect1.vect.y = settings.RacketSpeed;    //move down
+          //  cout << "/" << data.rect1.vect.y << "/";
         }
         //===========+ update +===========
+
         //transform recived data
       
 
-        racket2.y = reciveData[1];
 
-        data.ball.x = reciveData[3];
-        data.ball.y = reciveData[4];
+        if (counters.i == 10) {
+            data.rect2.y = reciveData[1];
+            counters.i = 0;
+        }
+            counters.i++;
+        
 
-        data.ball.vect.x = reciveData[5];
-        data.ball.vect.y = reciveData[6];
+       // data.rect2.y = reciveData[1];
 
-    
-        data.h2v = reciveData[7];
- 
+        data.rect2.vect.y = reciveData[2];
 
         
-        if (!server) { //update if we client
+        if (!server) {
+            if (counters.j == 1) {
+                data.ball.x = reciveData[5];
+                data.ball.y = reciveData[6];
 
-
-            ball.x = 1000 - data.ball.x;  //invert ball position
-            ball.y = data.ball.y;
-            ball.vect.x = data.ball.vect.x * -1; //and vector
-            ball.vect.y = data.ball.vect.y;
-
-            //counters.i = 0;
-
+                data.ball.x = 1000 - data.ball.x - data.ball.w;//invert ball position and substract it width because cords arent in center of an object
+                counters.j = 0;
+            }
+            counters.j++;
+            data.ball.vect.x = reciveData[7];
+            data.ball.vect.y = reciveData[8];
+            data.ball.vect.x = data.ball.vect.x * -1; //and vector
         }
 
-        if (Overlap(racket1,ball)) { ball.vect.x *= -1; } //if bal hits racket then invert x vector
-        if (Overlap(racket2, ball)) { ball.vect.x *= -1; }
 
+        if ((data.ball.x + data.ball.w) > Y_WALL || data.ball.x < 0) { data.ball.vect.x *= -1; }     //if ball hits to the wall invert vector
+        if ((data.ball.y + data.ball.h) > X_WALL || data.ball.y < 0) { data.ball.vect.y *= -1; }
 
-        if ((ball.x+ballS.w) > Y_WALL || ball.x < 0) { ball.vect.x *= -1; }     //if ball hits to the wall invert vector
-        if ((ball.y+ballS.h) > X_WALL || ball.y < 0) { ball.vect.y *= -1; }
+        if (data.rect1.y > X_WALL) { data.rect1.vect.y = 0; data.rect1.y--; } //if intersect then stop it and push back
+        if (data.rect2.y > X_WALL) { data.rect2.vect.y = 0; data.rect2.y--; }
 
-        if (racket1.y > X_WALL) { data.h1v = 0; racket1.y--; }
-        if (racket2.y > X_WALL) { data.h2v = 0; racket2.y--; }
+        if (data.rect1.y < 0) { data.rect1.vect.y = 0; data.rect1.y = 0; }
+        if (data.rect2.y < 0) { data.rect2.vect.y = 0; data.rect2.y = 0; }
 
-        if (racket1.y < 0) { data.h1v = 0; racket1.y = 0; }
-        if (racket2.y < 0) { data.h2v = 0; racket2.y = 0; }
+        if (Overlap(data.rect1, data.ball)) { data.ball.vect.x *= -1; } //if bal hits racket then invert x vector
+        if (Overlap(data.rect2, data.ball)) { data.ball.vect.x *= -1; }
         //update ball position
+      //  cout << "/" << data.rect1.vect.y << "/";
 
-        ballcord.x = ball.x;    //convert ball.x,y to vector for future calculations
-        ballcord.y = ball.y;
-        /*if we divide ticks to looptime we get difrenece coef wich shows vector lenght coef */
-        ballcord = vector2::sum(ballcord, ball.vect);    //ball.x,y += ball.vect
-        ball.x = ballcord.x;    //deconvert ballcord to ball.x,y
-        ball.y = ballcord.y;
+       
+
+        sumR(&data.ball.vect,& data.ball);    //ball.x,y += ball.vect
+
         //update ball render model
-        ballS.x = ball.x;
-        ballS.y = ball.y;
+        ballS.x = data.ball.x;
+        ballS.y = data.ball.y;
+       
+
         //update racket position
-        racket1.y += data.h1v;
-        racket2.y += data.h2v;
-        data.h1v = 0;
-        data.h2v = 0;
+
+        sumR(&data.rect1.vect, &data.rect1);
+        sumR(&data.rect2.vect, &data.rect2);
+
+        //cout << "/" << data.rect1.vect.y << "/";
+
+        //update racket render model
+        racket1.y = data.rect1.y;
+        racket2.y = data.rect2.y;
+
+        
+        //cout << "/" << data.rect1.y << "/";
 
 
         //set our racket cords
-        data.h1 = racket1.y;
-
-      
+ 
         //prepare for transmission
         sendData[0] = data.id;
-        sendData[1] = data.h1;
-        sendData[2] = data.h2;
-        sendData[3] = ball.x;
-        sendData[4] = ball.y;
-        sendData[5] = ball.vect.x;
-        sendData[6] = ball.vect.y;
-        sendData[7] = data.h1v;
-        sendData[8] = data.h2v;
 
+        sendData[1] = data.rect1.y;
+        sendData[2] = data.rect1.vect.y;
+        
+      
+        sendData[3] = data.rect2.x;
+        sendData[4] = data.rect2.vect.y;
 
-        if (true) {
+        sendData[5] = data.ball.x;
+        sendData[6] = data.ball.y;
+
+        sendData[7] = data.ball.vect.x;
+        sendData[8] = data.ball.vect.y;
+
+        //set racket vectors to 0
+        data.rect1.vect.y = 0;
+        //data.rect2.vect.y = 0;
+
+      
             
-            if (!socket.Send(user.address, sendData, sizeof(sendData)))
-            {
-                std::cout << "errror";
-            }
-          
+        if (!socket.Send(user.address, sendData, sizeof(sendData)))
+        {
+            std::cout << "errror";
         }
+         
+        
        
         
        
 
         //event = NULL;
         tick = clock() - tick; //get ticks after loop
-        cout << tick << endl; //print ticks
+        cout <<"t: " << tick << endl; //print ticks
         if (tick >= 20)
         {
             socket.Close();
@@ -551,21 +575,22 @@ struct settings FileRead(string filename) {
     return settings;
 
 }
-bool Overlap (SDL_Rect rect , ball ball){
-    int balh;
-    if (settings.MLGMode) {
-        balh = 50;
-    }
-    else {
-        balh = 10;
-    }
+
+bool Overlap(struct rect rect,struct rect ball) {
+   
     
-    if (rect.x > (ball.x + balh) || ball.x > (rect.x + rect.w)) {
+    if (rect.x > (ball.x + ball.h) || ball.x > (rect.x + rect.w)) {
         return false;
     }
-    if (rect.y > (ball.y + balh) || ball.y > (rect.y + rect.h)) {
+    if (rect.y > (ball.y + ball.w) || ball.y > (rect.y + rect.h)) {
         return false;
     }
 
     return true;
+}
+void writeTo(struct rect rect, SDL_Rect * Srect) {
+    Srect->x = rect.x;
+    Srect->y = rect.y;
+    Srect->w = rect.w;
+    Srect->h = rect.h;
 }
