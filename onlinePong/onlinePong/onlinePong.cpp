@@ -442,10 +442,8 @@ port:
         if (data.rect1.y < 0) { data.rect1.vect.y = 0; data.rect1.y = 0; }//clamp racket 
         if (data.rect2.y < 0) { data.rect2.vect.y = 0; data.rect2.y = 0; }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1a11e34fe1e861c0ecfd31a503bf7c90df649726
+
 
         if (Overlap(data.rect1, data.ball)) {//if bal hits racket then invert x vector
 
@@ -458,10 +456,6 @@ port:
 
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 1a11e34fe1e861c0ecfd31a503bf7c90df649726
         if (Overlap(data.rect2, data.ball)) { data.ball.vect.x *= -1; }
         //update ball position
       //  cout << "/" << data.rect1.vect.y << "/";
