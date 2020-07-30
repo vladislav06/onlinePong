@@ -1,0 +1,7 @@
+﻿  onlinePong.cpp
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(192,24): warning C4477: "printf": в строке форматирования "%s" требуется аргумент типа "char *", но вариативный аргумент "1" имеет тип "void *"
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(248,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(249,26): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(252,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+H:\projects\online_pong\onlinePong\onlinePong\onlinePong.cpp(253,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+  onlinePong.vcxproj -> H:\projects\online_pong\onlinePong\Debug\onlinePong.exe
