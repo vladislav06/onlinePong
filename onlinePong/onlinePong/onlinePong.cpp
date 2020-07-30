@@ -23,10 +23,10 @@ using namespace VectMath;
 
 
 struct data {
-    rect rect1;
-    rect rect2;
-    rect ball;  //struct ball use 16 bytes
-    uint8_t id = 0;     //one byte for id
+    rect rect1; //racke 1
+    rect rect2; //racket 2
+    rect ball;  // ball
+    uint8_t id = 0;     //for difrent data
 };
 
 struct user {
@@ -405,7 +405,7 @@ port:
 
         
         if (!server) {
-            if (counters.j == 1) {
+            if (counters.j == 2) {
                 data.ball.x = reciveData[5];
                 data.ball.y = reciveData[6];
 
@@ -417,6 +417,20 @@ port:
             data.ball.vect.y = reciveData[8];
             data.ball.vect.x = data.ball.vect.x * -1; //and vector
         }
+        else {
+            data.id = reciveData[0];
+            if (data.id == 10) {
+                data.ball.x = reciveData[5];
+                data.ball.y = reciveData[6];
+
+                data.ball.x = 1000 - data.ball.x - data.ball.w;//invert ball position and substract it width because cords arent in center of an object
+
+                data.ball.vect.x = reciveData[7];
+                data.ball.vect.y = reciveData[8];
+
+                data.ball.vect.x = data.ball.vect.x * -1; //and vector
+            }
+        }
 
 
         if ((data.ball.x + data.ball.w) > Y_WALL || data.ball.x < 0) { data.ball.vect.x *= -1; }     //if ball hits to the wall invert vector
@@ -425,10 +439,21 @@ port:
         if (data.rect1.y > X_WALL) { data.rect1.vect.y = 0; data.rect1.y--; } //if intersect then stop it and push back
         if (data.rect2.y > X_WALL) { data.rect2.vect.y = 0; data.rect2.y--; }
 
-        if (data.rect1.y < 0) { data.rect1.vect.y = 0; data.rect1.y = 0; }
+        if (data.rect1.y < 0) { data.rect1.vect.y = 0; data.rect1.y = 0; }//clamp racket 
         if (data.rect2.y < 0) { data.rect2.vect.y = 0; data.rect2.y = 0; }
 
-        if (Overlap(data.rect1, data.ball)) { data.ball.vect.x *= -1; } //if bal hits racket then invert x vector
+
+        if (Overlap(data.rect1, data.ball)) {//if bal hits racket then invert x vector
+
+            data.ball.vect.x *= -1;
+            data.id = 10;
+        }
+        else {
+
+            data.id = 0;
+
+        }
+
         if (Overlap(data.rect2, data.ball)) { data.ball.vect.x *= -1; }
         //update ball position
       //  cout << "/" << data.rect1.vect.y << "/";
